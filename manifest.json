@@ -1,11 +1,11 @@
 {
-	"id": "sample-plugin",
-	"name": "Sample Plugin",
+	"id": "obsidian-img-annotation",
+	"name": "img annotation",
 	"version": "1.0.0",
 	"minAppVersion": "0.15.0",
-	"description": "Demonstrates some of the capabilities of the Obsidian API.",
-	"author": "Obsidian",
-	"authorUrl": "https://obsidian.md",
+	"description": "Annotate images with a stylus in Obsidian.",
+	"author": "lution",
+	"authorUrl": "https://github.com/Mrlution",
 	"fundingUrl": "https://obsidian.md/pricing",
 	"isDesktopOnly": false
 }
