@@ -3,16 +3,16 @@ import { Canvas, StaticCanvas, FabricText } from 'fabric'
 
 // Remember to rename these classes and interfaces!
 
-interface MyPluginSettings {
+interface ImgAnnotationSettings {
 	mySetting: string;
 }
 
-const DEFAULT_SETTINGS: MyPluginSettings = {
+const DEFAULT_SETTINGS: ImgAnnotationSettings = {//
 	mySetting: 'default'
 }
 
-export default class MyPlugin extends Plugin {
-	settings: MyPluginSettings;
+export default class ImgAnnotation extends Plugin {
+	settings: ImgAnnotationSettings;
 
 	async onload() {
 		await this.loadSettings();
@@ -20,7 +20,7 @@ export default class MyPlugin extends Plugin {
 		// This creates an icon in the left ribbon.
 		const ribbonIconEl = this.addRibbonIcon('dice', 'Sample Plugin', (evt: MouseEvent) => {
 			// Called when the user clicks the icon.
-			new Notice('Hello& You');
+			new Notice('HelloYou');
 		});
 		// Perform additional things with the ribbon
 		ribbonIconEl.addClass('my-plugin-ribbon-class');
@@ -72,11 +72,25 @@ export default class MyPlugin extends Plugin {
 		// If the plugin hooks up any global DOM events (on parts of the app that doesn't belong to this plugin)
 		// Using this function will automatically remove the event listener when this plugin is disabled.
 		this.registerDomEvent(document, 'click', (evt: MouseEvent) => {
-			console.log('click', evt);
+		//	console.log('click', evt);
 		});
 
 		// When registering intervals, this function will automatically clear the interval when the plugin is disabled.
 		this.registerInterval(window.setInterval(() => console.log('setInterval'), 5 * 60 * 1000));
+		
+		this.app.workspace.on('layout-change',()=>{
+			//this.addImageClickHandler();
+			new Notice('layout change');
+			console.log('start');
+			this.app.workspace.iterateAllLeaves((leaf: WorkspaceLeaf) => {
+				//new Notice(leaf.getViewState()?.type)
+				console.log(leaf.getViewState()?.type);
+
+			})
+			console.log('end');
+		})
+		
+	
 	}
 
 	onunload() {
@@ -89,6 +103,31 @@ export default class MyPlugin extends Plugin {
 
 	async saveSettings() {
 		await this.saveData(this.settings);
+	}
+
+
+	private handleImageClick(event: MouseEvent) {
+		// 可以使用event
+		new Notice('IMG CLICK');
+	}
+	private addImageClickHandler(){
+		new Notice('adding handler');
+		// 1. 获取当前活动视图的容器元素
+		const viewContainer = this.app.workspace.activeLeaf?.view.containerEl;
+		// 2. 安全判断：确保容器存在
+		if (!viewContainer) return;
+		// 3. 查找所有图片元素
+		const images = viewContainer.querySelectorAll('img');
+		// 4. 为每个图片添加点击事件监听
+
+		images.forEach(img => {
+			// 移除可能已存在的事件监听（避免重复添加）
+			img.removeEventListener('click', this.handleImageClick);
+			// 添加新的事件监听
+			img.addEventListener('click', this.handleImageClick.bind(this));
+		});
+		
+
 	}
 }
 
@@ -109,9 +148,9 @@ class SampleModal extends Modal {
 }
 
 class SampleSettingTab extends PluginSettingTab {
-	plugin: MyPlugin;
+	plugin: ImgAnnotation;
 
-	constructor(app: App, plugin: MyPlugin) {
+	constructor(app: App, plugin: ImgAnnotation) {
 		super(app, plugin);
 		this.plugin = plugin;
 	}

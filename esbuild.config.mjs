@@ -46,5 +46,5 @@ if (prod) {
 	process.exit(0);
 } else {
 	await context.watch();
-	process.exit(0);
+	//process.exit(0);
 }
