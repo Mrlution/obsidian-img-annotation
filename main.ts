@@ -1,6 +1,21 @@
 import { App, Editor, MarkdownView, Modal, Notice, Plugin, PluginSettingTab, Setting, WorkspaceLeaf  } from 'obsidian';
 import { Canvas, StaticCanvas, FabricText } from 'fabric'
 
+function touchesToString(touches) {
+    // 将 TouchList 转换为普通数组
+    const touchArray = Array.from(touches).map(touch => ({
+        identifier: touch.identifier,
+        clientX: touch.clientX,
+        clientY: touch.clientY,
+        pageX: touch.pageX,
+        pageY: touch.pageY,
+    }));
+
+    // 使用 JSON.stringify 转换为字符串
+    return JSON.stringify(touchArray, null, 2);
+}
+
+
 // Remember to rename these classes and interfaces!
 
 interface ImgAnnotationSettings {
@@ -99,7 +114,7 @@ export default class ImgAnnotation extends Plugin {
         touchEvents.forEach((eventName) => {
             this.registerDomEvent(document, eventName, (event: TouchEvent) => {
                 //console.log(`Touch event: ${eventName}`, event);
-				new Notice(JSON.stringify(event.touches));
+				new Notice(touchesToString(event.touches));
 				//new Notice(`${eventName}`, event.touches.stringify());
             });
         });
