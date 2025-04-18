@@ -100,7 +100,7 @@ export default class ImgAnnotation extends Plugin {
             this.registerDomEvent(document, eventName, (event: TouchEvent) => {
                 //console.log(`Touch event: ${eventName}`, event);
 				new Notice(`${eventName}`, event);
-				new Notice(`${eventName}`, event.touches);
+				new Notice(`${eventName}`, event.touches.stringify());
             });
         });
 	}
