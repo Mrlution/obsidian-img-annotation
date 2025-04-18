@@ -1,4 +1,4 @@
-import { App, Editor, MarkdownView, Modal, Notice, Plugin, PluginSettingTab, Setting } from 'obsidian';
+import { App, Editor, MarkdownView, Modal, Notice, Plugin, PluginSettingTab, Setting, WorkspaceLeaf  } from 'obsidian';
 import { Canvas, StaticCanvas, FabricText } from 'fabric'
 
 // Remember to rename these classes and interfaces!
@@ -89,7 +89,8 @@ export default class ImgAnnotation extends Plugin {
 		// 	})
 		// 	console.log('end');
 		// })
-		
+
+
 		this.registerTouchEvents();
 	
 	}
@@ -99,6 +100,7 @@ export default class ImgAnnotation extends Plugin {
             this.registerDomEvent(document, eventName, (event: TouchEvent) => {
                 //console.log(`Touch event: ${eventName}`, event);
 				new Notice(`${eventName}`, event);
+				new Notice(`${eventName}`, event.touches);
             });
         });
 	}
