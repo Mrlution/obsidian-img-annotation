@@ -1,6 +1,9 @@
-import { App, Editor, MarkdownView, Modal, Notice, Plugin, PluginSettingTab, Setting, WorkspaceLeaf  } from 'obsidian';
-import { Canvas, StaticCanvas, FabricText } from 'fabric'
+import { App, Editor, MarkdownView, Modal, Notice, Plugin, PluginSettingTab, Setting, WorkspaceLeaf ,ItemView } from 'obsidian';
+//import { Canvas, StaticCanvas, FabricText } from 'fabric'
 
+function delay(ms: number): Promise<void> {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
 function touchesToString(touches) {
     // 将 TouchList 转换为普通数组
     const touchArray = Array.from(touches).map(touch => ({
@@ -107,6 +110,19 @@ export default class ImgAnnotation extends Plugin {
 
 
 		this.registerTouchEvents();
+		this.registerEvent(this.app.workspace.on('file-open', async (file) => {
+			const canvasView = this.app.workspace.getActiveViewOfType(ItemView);
+			if (canvasView?.getViewType() !== 'canvas') return;
+			const canvas = (canvasView as any).canvas;
+			canvas.zoomBy(2);
+			await delay(2000);
+			canvas.zoomBy(0.5);
+			await delay(2000);
+			canvas.zoomBy(2);
+			await delay(2000);
+			canvas.zoomBy(0.5);
+			await delay(2000);
+		})); 
 	
 	}
 	registerTouchEvents() {
