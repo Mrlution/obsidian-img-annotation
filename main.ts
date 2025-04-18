@@ -78,19 +78,28 @@ export default class ImgAnnotation extends Plugin {
 		// When registering intervals, this function will automatically clear the interval when the plugin is disabled.
 		this.registerInterval(window.setInterval(() => console.log('setInterval'), 5 * 60 * 1000));
 		
-		this.app.workspace.on('layout-change',()=>{
-			//this.addImageClickHandler();
-			new Notice('layout change');
-			console.log('start');
-			this.app.workspace.iterateAllLeaves((leaf: WorkspaceLeaf) => {
-				//new Notice(leaf.getViewState()?.type)
-				console.log(leaf.getViewState()?.type);
+		// this.app.workspace.on('layout-change',()=>{
+		// 	//this.addImageClickHandler();
+		// 	new Notice('layout change');
+		// 	console.log('start');
+		// 	this.app.workspace.iterateAllLeaves((leaf: WorkspaceLeaf) => {
+		// 		//new Notice(leaf.getViewState()?.type)
+		// 		console.log(leaf.getViewState()?.type);
 
-			})
-			console.log('end');
-		})
+		// 	})
+		// 	console.log('end');
+		// })
 		
+		this.registerTouchEvents();
 	
+	}
+	registerTouchEvents() {
+		const touchEvents = ["touchstart", "touchmove", "touchend"];
+        touchEvents.forEach((eventName) => {
+            this.registerDomEvent(document, eventName, (event: TouchEvent) => {
+                console.log(`Touch event: ${eventName}`, event);
+            });
+        });
 	}
 
 	onunload() {
@@ -110,25 +119,24 @@ export default class ImgAnnotation extends Plugin {
 		// 可以使用event
 		new Notice('IMG CLICK');
 	}
-	private addImageClickHandler(){
-		new Notice('adding handler');
-		// 1. 获取当前活动视图的容器元素
-		const viewContainer = this.app.workspace.activeLeaf?.view.containerEl;
-		// 2. 安全判断：确保容器存在
-		if (!viewContainer) return;
-		// 3. 查找所有图片元素
-		const images = viewContainer.querySelectorAll('img');
-		// 4. 为每个图片添加点击事件监听
+	// private addImageClickHandler(){
+	// 	new Notice('adding handler');
+	// 	// 1. 获取当前活动视图的容器元素
+	// 	const viewContainer = this.app.workspace.activeLeaf?.view.containerEl;
+	// 	// 2. 安全判断：确保容器存在
+	// 	if (!viewContainer) return;
+	// 	// 3. 查找所有图片元素
+	// 	const images = viewContainer.querySelectorAll('img');
+	// 	// 4. 为每个图片添加点击事件监听
 
-		images.forEach(img => {
-			// 移除可能已存在的事件监听（避免重复添加）
-			img.removeEventListener('click', this.handleImageClick);
-			// 添加新的事件监听
-			img.addEventListener('click', this.handleImageClick.bind(this));
-		});
-		
+	// 	images.forEach(img => {
+	// 		// 移除可能已存在的事件监听（避免重复添加）
+	// 		img.removeEventListener('click', this.handleImageClick);
+	// 		// 添加新的事件监听
+	// 		img.addEventListener('click', this.handleImageClick.bind(this));
+	// 	});
+	// }
 
-	}
 }
 
 class SampleModal extends Modal {
