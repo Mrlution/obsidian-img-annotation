@@ -235,16 +235,16 @@ class SampleSettingTab extends PluginSettingTab {
 
 		containerEl.empty();
 
-		new Setting(containerEl)
-			.setName('Setting #1')
-			.setDesc('It\'s a secret')
-			.addText(text => text
-				.setPlaceholder('Enter your secret')
-				.setValue(this.plugin.settings.mySetting)
-				.onChange(async (value) => {
-					this.plugin.settings.mySetting = value;
-					await this.plugin.saveSettings();
-				}));
+		// new Setting(containerEl)
+		// 	.setName('Setting #1')
+		// 	.setDesc('It\'s a secret')
+		// 	.addText(text => text
+		// 		.setPlaceholder('Enter your secret')
+		// 		.setValue(this.plugin.settings.mySetting)
+		// 		.onChange(async (value) => {
+		// 			this.plugin.settings.mySetting = value;
+		// 			await this.plugin.saveSettings();
+		// 		}));
 		new Setting(containerEl)
 			.setName('Zoom Speed')
 			.setDesc('0.1 to 1.0')
@@ -257,6 +257,7 @@ class SampleSettingTab extends PluginSettingTab {
 						this.plugin.settings.zoomSpeedSetting = float_value;
 					}else{
 						this.plugin.settings.zoomSpeedSetting = 0.2;
+						text.setValue(this.plugin.settings.zoomSpeedSetting.toString());
 					}
 					await this.plugin.saveSettings();
 				}));
