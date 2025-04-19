@@ -255,7 +255,7 @@ class SampleSettingTab extends PluginSettingTab {
 				.onChange(async (value) => {
 					const float_value= parseFloat(value);
 					
-					if(!isNaN(float_value) ){
+					if(!isNaN(float_value) &&(float_value>=0.01 && float_value<=1.0)){
 						this.plugin.settings.zoomSpeedSetting = float_value;
 					}else{
 						this.plugin.settings.zoomSpeedSetting = 0.2;
