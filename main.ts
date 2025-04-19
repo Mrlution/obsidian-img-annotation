@@ -109,31 +109,28 @@ export default class ImgAnnotation extends Plugin {
 		// })
 
 
-		this.registerTouchEventsForHarmonyTabletMouse();
+		//this.registerTouchEventsForHarmonyTabletMouse();
 		this.registerEvent(this.app.workspace.on('file-open', async (file) => {
 			const canvasView = this.app.workspace.getActiveViewOfType(ItemView);
 			if (canvasView?.getViewType() !== 'canvas') return;
 			const canvas = (canvasView as any).canvas;
 			(this as any).canvas=canvas; //当前打开的canvas
-			// new Notice(-canvas.config.zoomMultiplier);
-			// canvas.zoomBy(-canvas.config.zoomMultiplier);
-			// await delay(1000);
-			// canvas.zoomBy(-canvas.config.zoomMultiplier);
-			// await delay(1000);
-			// canvas.zoomBy(-canvas.config.zoomMultiplier);
-			// await delay(1000);
+			this.registerDomEvent(canvas,"touchstart", (event: TouchEvent) => {
+				(this as any).HarmonyTableMouseStartTouches=event.touches.item(0);
+				new Notice(touchesToString("touchstart"));
+			});
+
 		})); 
+		
+
 	}
 
 
 	registerTouchEventsForHarmonyTabletMouse() {
-		//(this as any).HarmonyTabletMouseEvent=0;
 		this.registerDomEvent(document,"touchstart", (event: TouchEvent) => {
-			//this.HarmonyTableMouseEvent=1;
 			(this as any).HarmonyTableMouseStartTouches=event.touches.item(0);
 		});
 		this.registerDomEvent(document,"touchmove", (event: TouchEvent) => {
-			//this.HarmonyTableMouseEvent=this.HarmonyTableMouseEvent+1;
 			(this as any).HarmonyTableMouseEndTouches=event.touches.item(0);
 			if(Math.abs(this.HarmonyTableMouseEndTouches.clientX-this.HarmonyTableMouseStartTouches.clientX<0.01)){
 				if(this.HarmonyTableMouseEndTouches.clientY>this.HarmonyTableMouseStartTouches.clientY){
@@ -141,12 +138,11 @@ export default class ImgAnnotation extends Plugin {
 				}
 				else if(this.HarmonyTableMouseEndTouches.clientY<this.HarmonyTableMouseStartTouches.clientY){
 					this.canvas.zoomBy(-0.5, {x:this.HarmonyTableMouseEndTouches.clientX-this.canvas.canvasRect.cx,y:this.HarmonyTableMouseEndTouches.clientY-this.canvas.canvasRect.cy}); //-this.canvas.config.zoomMultiplier
-					//new Notice("zoom in");		
 				}
 			}
 		});
-		this.registerDomEvent(document,"touchend", (event: TouchEvent) => {
-		});
+		// this.registerDomEvent(document,"touchend", (event: TouchEvent) => {
+		// });
 	}
 		// const touchEvents = ["touchstart", "touchmove", "touchend"];
         // touchEvents.forEach((eventName) => {
