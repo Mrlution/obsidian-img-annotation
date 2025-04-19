@@ -145,9 +145,11 @@ export default class ImgAnnotation extends Plugin {
 				new Notice(this.HarmonyTableMouseStartTouches.clientY);
 				if(this.HarmonyTableMouseEndTouches.clientY>this.HarmonyTableMouseStartTouches.clientY){
 					this.canvas.zoomBy(-this.canvas.config.zoomMultiplier);
+					new Notice("zoom out");
 				}
 				else if(this.HarmonyTableMouseEndTouches.clientY<this.HarmonyTableMouseStartTouches.clientY){
 					this.canvas.zoomBy(this.canvas.config.zoomMultiplier);
+					new Notice("zoom in");
 				}
 			}
 
