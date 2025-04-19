@@ -137,14 +137,14 @@ export default class ImgAnnotation extends Plugin {
 				});	
 
 				this.registerDomEvent(canvasView.containerEl,"touchmove", (event: TouchEvent) => {
-					new Notice(touchesToString(event.touches));
+					//new Notice(touchesToString(event.touches));
 					(canvasView as any).HarmonyTableMouseEndTouches=event.touches.item(0);
 					//if(Math.abs(canvasView.HarmonyTableMouseEndTouches.clientX-canvasView.HarmonyTableMouseStartTouches.clientX<0.000000000001)){}
 
-					if(canvasView.HarmonyTableMouseEndTouches.clientY>canvasView.HarmonyTableMouseStartTouches.clientY&&canvasView.ctrlKeyIsPressed){
+					if(canvasView.ctrlKeyIsPressed&&canvasView.HarmonyTableMouseEndTouches.clientY>canvasView.HarmonyTableMouseStartTouches.clientY){
 						canvasView.canvas.zoomBy(0.2,{x:canvasView.HarmonyTableMouseEndTouches.clientX-canvasView.canvas.canvasRect.cx,y:canvasView.HarmonyTableMouseEndTouches.clientY-canvasView.canvas.canvasRect.cy}); //this.canvas.config.zoomMultiplier
 					}
-					else if(canvasView.HarmonyTableMouseEndTouches.clientY<canvasView.HarmonyTableMouseStartTouches.clientY&&canvasView.ctrlKeyIsPressed){
+					else if(canvasView.ctrlKeyIsPressed&&canvasView.HarmonyTableMouseEndTouches.clientY<canvasView.HarmonyTableMouseStartTouches.clientY){
 						canvasView.canvas.zoomBy(-0.2, {x:canvasView.HarmonyTableMouseEndTouches.clientX-canvasView.canvas.canvasRect.cx,y:canvasView.HarmonyTableMouseEndTouches.clientY-canvasView.canvas.canvasRect.cy}); //-this.canvas.config.zoomMultiplier
 					}
 					
