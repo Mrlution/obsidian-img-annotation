@@ -114,25 +114,48 @@ export default class ImgAnnotation extends Plugin {
 			const canvasView = this.app.workspace.getActiveViewOfType(ItemView);
 			if (canvasView?.getViewType() !== 'canvas') return;
 			const canvas = (canvasView as any).canvas;
-			new Notice(touchesToString(-canvas.config.zoomMultiplier));
-			canvas.zoomBy(-canvas.config.zoomMultiplier);
-			await delay(1000);
-			canvas.zoomBy(-canvas.config.zoomMultiplier);
-			await delay(1000);
-			canvas.zoomBy(-canvas.config.zoomMultiplier);
-			await delay(1000);
+			this.canvas=canvas; //当前打开的canvas
+			// new Notice(-canvas.config.zoomMultiplier);
+			// canvas.zoomBy(-canvas.config.zoomMultiplier);
+			// await delay(1000);
+			// canvas.zoomBy(-canvas.config.zoomMultiplier);
+			// await delay(1000);
+			// canvas.zoomBy(-canvas.config.zoomMultiplier);
+			// await delay(1000);
 		})); 
 	
 	}
-	registerTouchEvents() {
-		const touchEvents = ["touchstart", "touchmove", "touchend"];
-        touchEvents.forEach((eventName) => {
-            this.registerDomEvent(document, eventName, (event: TouchEvent) => {
-                //console.log(`Touch event: ${eventName}`, event);
-				new Notice(touchesToString(event.touches));
-				//new Notice(`${eventName}`, event.touches.stringify());
-            });
-        });
+	registerTouchEventsForHarmonyTabletMouse() {
+		this.HarmonyTabletMouseEvent=0;
+		this.registerDomEvent(document,"touchstart", (event: TouchEvent) => {
+			this.HarmonyTableMouseEvent=1;
+			this.HarmonyTableMouseStartTouches=event.touches;
+		});
+		this.registerDomEvent(document,"touchmove", (event: TouchEvent) => {
+			this.HarmonyTableMouseEvent=this.HarmonyTableMouseEvent+1;
+			this.HarmonyTableMouseEndTouches=event.touches;
+		});
+		this.registerDomEvent(document,"touchend", (event: TouchEvent) => {
+			this.HarmonyTableMouseEvent=this.HarmonyTableMouseEvent+1;
+			if(this.HarmonyTableMouseEvent===3){
+				if(this.HarmonyTableMouseEndTouches.clientY>this.HarmonyTableMouseStartTouches.clientY){
+					this.canvas.zoomBy(-this.canvas.config.zoomMultiplier);
+				}
+				else if(this.HarmonyTableMouseEndTouches.clientY<this.HarmonyTableMouseStartTouches.clientY){
+					this.canvas.zoomBy(this.canvas.config.zoomMultiplier);
+				}
+			}
+
+		});
+
+		// const touchEvents = ["touchstart", "touchmove", "touchend"];
+        // touchEvents.forEach((eventName) => {
+        //     this.registerDomEvent(document, eventName, (event: TouchEvent) => {
+        //         //console.log(`Touch event: ${eventName}`, event);
+		// 		new Notice(touchesToString(event.touches));
+		// 		//new Notice(`${eventName}`, event.touches.stringify());
+        //     });
+        // });
 	}
 
 	onunload() {
