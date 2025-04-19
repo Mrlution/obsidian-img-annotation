@@ -1,4 +1,5 @@
 import { App, Editor, MarkdownView, Modal, Notice, Plugin, PluginSettingTab, Setting, WorkspaceLeaf ,ItemView } from 'obsidian';
+import { text } from 'stream/consumers';
 //import { Canvas, StaticCanvas, FabricText } from 'fabric'
 
 function delay(ms: number): Promise<void> {
@@ -23,10 +24,12 @@ function touchesToString(touches) {
 
 interface ImgAnnotationSettings {
 	mySetting: string;
+	zoomSpeedSetting:number;
 }
 
-const DEFAULT_SETTINGS: ImgAnnotationSettings = {//
-	mySetting: 'default'
+const DEFAULT_SETTINGS: ImgAnnotationSettings = {
+	mySetting: 'default',
+	zoomSpeedSetting:0.2,
 }
 
 export default class ImgAnnotation extends Plugin {
@@ -199,28 +202,7 @@ export default class ImgAnnotation extends Plugin {
 		await this.saveData(this.settings);
 	}
 
-
-	private handleImageClick(event: MouseEvent) {
-		// 可以使用event
-		new Notice('IMG CLICK');
-	}
-	// private addImageClickHandler(){
-	// 	new Notice('adding handler');
-	// 	// 1. 获取当前活动视图的容器元素
-	// 	const viewContainer = this.app.workspace.activeLeaf?.view.containerEl;
-	// 	// 2. 安全判断：确保容器存在
-	// 	if (!viewContainer) return;
-	// 	// 3. 查找所有图片元素
-	// 	const images = viewContainer.querySelectorAll('img');
-	// 	// 4. 为每个图片添加点击事件监听
-
-	// 	images.forEach(img => {
-	// 		// 移除可能已存在的事件监听（避免重复添加）
-	// 		img.removeEventListener('click', this.handleImageClick);
-	// 		// 添加新的事件监听
-	// 		img.addEventListener('click', this.handleImageClick.bind(this));
-	// 	});
-	// }
+	
 
 }
 
@@ -261,6 +243,21 @@ class SampleSettingTab extends PluginSettingTab {
 				.setValue(this.plugin.settings.mySetting)
 				.onChange(async (value) => {
 					this.plugin.settings.mySetting = value;
+					await this.plugin.saveSettings();
+				}));
+		new Setting(containerEl)
+			.setName('Zoom Speed')
+			.setDesc('0.1 to 1.0')
+			.addText(text => text
+				.setPlaceholder('0.2')
+				.setValue(this.plugin.settings.zoomSpeedSetting.toString())
+				.onChange(async (value) => {
+					const float_value= parseFloat(value);
+					if(!isNaN(float_value)){
+						this.plugin.settings.zoomSpeedSetting = float_value;
+					}else{
+						this.plugin.settings.zoomSpeedSetting = 0.2;
+					}
 					await this.plugin.saveSettings();
 				}));
 	}
