@@ -254,13 +254,13 @@ class SampleSettingTab extends PluginSettingTab {
 				.setValue(this.plugin.settings.zoomSpeedSetting.toString())
 				.onChange(async (value) => {
 					const float_value= parseFloat(value);
-					new Notice(float_value);
-					if(!isNaN(float_value)){
+					
+					if(!isNaN(float_value) ){
 						this.plugin.settings.zoomSpeedSetting = float_value;
 					}else{
 						this.plugin.settings.zoomSpeedSetting = 0.2;
-						text.setValue(this.plugin.settings.zoomSpeedSetting.toString());
 					}
+					text.setValue(this.plugin.settings.zoomSpeedSetting.toString());
 					await this.plugin.saveSettings();
 				})
 			});
