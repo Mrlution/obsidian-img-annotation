@@ -114,25 +114,29 @@ export default class ImgAnnotation extends Plugin {
 			const canvasView = this.app.workspace.getActiveViewOfType(ItemView);
 			if (canvasView?.getViewType() !== 'canvas') return;
 			const canvas = (canvasView as any).canvas;
-			(this as any).canvas=canvas; //当前打开的canvas
+			//(this as any).canvas=canvas; //当前打开的canvas
 
-			this.registerDomEvent(canvasView.containerEl,"touchstart", (event: TouchEvent) => {
-				(canvasView as any).HarmonyTableMouseStartTouches=event.touches.item(0);
-				//new Notice(this);
-				//new Notice("touchstart");
-			});	
+			if(!canvasView.isRegisteredTouchEvents)
+			{
+				this.registerDomEvent(canvasView.containerEl,"touchstart", (event: TouchEvent) => {
+					(canvasView as any).HarmonyTableMouseStartTouches=event.touches.item(0);
+					//new Notice(this);
+					//new Notice("touchstart");
+				});	
 
-			this.registerDomEvent(canvasView.containerEl,"touchmove", (event: TouchEvent) => {
-				(canvasView as any).HarmonyTableMouseEndTouches=event.touches.item(0);
-				if(Math.abs(canvasView.HarmonyTableMouseEndTouches.clientX-canvasView.HarmonyTableMouseStartTouches.clientX<0.01)){
-					if(canvasView.HarmonyTableMouseEndTouches.clientY>canvasView.HarmonyTableMouseStartTouches.clientY){
-						canvasView.canvas.zoomBy(0.2,{x:canvasView.HarmonyTableMouseEndTouches.clientX-canvasView.canvas.canvasRect.cx,y:canvasView.HarmonyTableMouseEndTouches.clientY-canvasView.canvas.canvasRect.cy}); //this.canvas.config.zoomMultiplier
+				this.registerDomEvent(canvasView.containerEl,"touchmove", (event: TouchEvent) => {
+					(canvasView as any).HarmonyTableMouseEndTouches=event.touches.item(0);
+					if(Math.abs(canvasView.HarmonyTableMouseEndTouches.clientX-canvasView.HarmonyTableMouseStartTouches.clientX<0.01)){
+						if(canvasView.HarmonyTableMouseEndTouches.clientY>canvasView.HarmonyTableMouseStartTouches.clientY){
+							canvasView.canvas.zoomBy(0.2,{x:canvasView.HarmonyTableMouseEndTouches.clientX-canvasView.canvas.canvasRect.cx,y:canvasView.HarmonyTableMouseEndTouches.clientY-canvasView.canvas.canvasRect.cy}); //this.canvas.config.zoomMultiplier
+						}
+						else if(canvasView.HarmonyTableMouseEndTouches.clientY<canvasView.HarmonyTableMouseStartTouches.clientY){
+							canvasView.canvas.zoomBy(-0.2, {x:canvasView.HarmonyTableMouseEndTouches.clientX-canvasView.canvas.canvasRect.cx,y:canvasView.HarmonyTableMouseEndTouches.clientY-canvasView.canvas.canvasRect.cy}); //-this.canvas.config.zoomMultiplier
+						}
 					}
-					else if(canvasView.HarmonyTableMouseEndTouches.clientY<canvasView.HarmonyTableMouseStartTouches.clientY){
-						canvasView.canvas.zoomBy(-0.2, {x:canvasView.HarmonyTableMouseEndTouches.clientX-canvasView.canvas.canvasRect.cx,y:canvasView.HarmonyTableMouseEndTouches.clientY-canvasView.canvas.canvasRect.cy}); //-this.canvas.config.zoomMultiplier
-					}
-				}
-			});
+				});
+				(canvasView as any).isRegisteredTouchEvents = true;
+			}
 		
 
 		})); 
