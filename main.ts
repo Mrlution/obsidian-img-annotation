@@ -248,11 +248,13 @@ class SampleSettingTab extends PluginSettingTab {
 		new Setting(containerEl)
 			.setName('Zoom Speed')
 			.setDesc('0.1 to 1.0')
-			.addText((text) => {text
+			.addText((text) => {
+				text
 				.setPlaceholder('0.2')
 				.setValue(this.plugin.settings.zoomSpeedSetting.toString())
 				.onChange(async (value) => {
 					const float_value= parseFloat(value);
+					new Notice(float_value);
 					if(!isNaN(float_value)){
 						this.plugin.settings.zoomSpeedSetting = float_value;
 					}else{
@@ -260,6 +262,7 @@ class SampleSettingTab extends PluginSettingTab {
 						text.setValue(this.plugin.settings.zoomSpeedSetting.toString());
 					}
 					await this.plugin.saveSettings();
-				})});
+				})
+			});
 	}
 }
