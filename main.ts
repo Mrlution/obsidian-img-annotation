@@ -125,6 +125,7 @@ export default class ImgAnnotation extends Plugin {
 				});	
 
 				this.registerDomEvent(canvasView.containerEl,"touchmove", (event: TouchEvent) => {
+					new Notice(touchesToString(event.touches));
 					(canvasView as any).HarmonyTableMouseEndTouches=event.touches.item(0);
 					if(Math.abs(canvasView.HarmonyTableMouseEndTouches.clientX-canvasView.HarmonyTableMouseStartTouches.clientX<0.0001)){
 						if(canvasView.HarmonyTableMouseEndTouches.clientY>canvasView.HarmonyTableMouseStartTouches.clientY){
