@@ -141,6 +141,8 @@ export default class ImgAnnotation extends Plugin {
 			this.HarmonyTableMouseEvent=this.HarmonyTableMouseEvent+1;
 			if(this.HarmonyTableMouseEvent===3){
 				new Notice("this is three");
+				new Notice(this.HarmonyTableMouseEndTouches.clientY);
+				new Notice(this.HarmonyTableMouseStartTouches.clientY);
 				if(this.HarmonyTableMouseEndTouches.clientY>this.HarmonyTableMouseStartTouches.clientY){
 					this.canvas.zoomBy(-this.canvas.config.zoomMultiplier);
 				}
