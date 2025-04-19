@@ -109,7 +109,7 @@ export default class ImgAnnotation extends Plugin {
 		// })
 
 
-		this.registerTouchEvents();
+		this.registerTouchEventsForHarmonyTabletMouse();
 		this.registerEvent(this.app.workspace.on('file-open', async (file) => {
 			const canvasView = this.app.workspace.getActiveViewOfType(ItemView);
 			if (canvasView?.getViewType() !== 'canvas') return;
@@ -125,7 +125,7 @@ export default class ImgAnnotation extends Plugin {
 		})); 
 	}
 
-	
+
 	registerTouchEventsForHarmonyTabletMouse() {
 		(this as any).HarmonyTabletMouseEvent=0;
 		this.registerDomEvent(document,"touchstart", (event: TouchEvent) => {
