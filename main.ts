@@ -155,7 +155,7 @@ export default class ImgAnnotation extends Plugin {
 			this.HarmonyTableMouseEvent=this.HarmonyTableMouseEvent=0;
 
 		});
-
+	}
 		// const touchEvents = ["touchstart", "touchmove", "touchend"];
         // touchEvents.forEach((eventName) => {
         //     this.registerDomEvent(document, eventName, (event: TouchEvent) => {
@@ -164,7 +164,7 @@ export default class ImgAnnotation extends Plugin {
 		// 		//new Notice(`${eventName}`, event.touches.stringify());
         //     });
         // });
-	}
+
 
 	onunload() {
 
