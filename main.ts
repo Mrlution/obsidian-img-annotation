@@ -141,13 +141,11 @@ export default class ImgAnnotation extends Plugin {
 				}
 				else if(this.HarmonyTableMouseEndTouches.clientY<this.HarmonyTableMouseStartTouches.clientY){
 					this.canvas.zoomBy(-0.5, {x:this.HarmonyTableMouseEndTouches.clientX-this.canvas.canvasRect.cx,y:this.HarmonyTableMouseEndTouches.clientY-this.canvas.canvasRect.cy}); //-this.canvas.config.zoomMultiplier
-					//new Notice("zoom in");
-					
+					//new Notice("zoom in");		
 				}
 			}
 		});
 		this.registerDomEvent(document,"touchend", (event: TouchEvent) => {
-			new Notice(this.HarmonyTableMouseEvent);
 		});
 	}
 		// const touchEvents = ["touchstart", "touchmove", "touchend"];
