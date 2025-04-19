@@ -126,7 +126,7 @@ export default class ImgAnnotation extends Plugin {
 
 				this.registerDomEvent(canvasView.containerEl,"touchmove", (event: TouchEvent) => {
 					(canvasView as any).HarmonyTableMouseEndTouches=event.touches.item(0);
-					if(Math.abs(canvasView.HarmonyTableMouseEndTouches.clientX-canvasView.HarmonyTableMouseStartTouches.clientX<0.01)){
+					if(Math.abs(canvasView.HarmonyTableMouseEndTouches.clientX-canvasView.HarmonyTableMouseStartTouches.clientX<0.0001)){
 						if(canvasView.HarmonyTableMouseEndTouches.clientY>canvasView.HarmonyTableMouseStartTouches.clientY){
 							canvasView.canvas.zoomBy(0.2,{x:canvasView.HarmonyTableMouseEndTouches.clientX-canvasView.canvas.canvasRect.cx,y:canvasView.HarmonyTableMouseEndTouches.clientY-canvasView.canvas.canvasRect.cy}); //this.canvas.config.zoomMultiplier
 						}
