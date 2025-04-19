@@ -116,8 +116,19 @@ export default class ImgAnnotation extends Plugin {
 			const canvas = (canvasView as any).canvas;
 			//(this as any).canvas=canvas; //当前打开的canvas
 
-			if(!canvasView.isRegisteredTouchEvents)
+			if(!canvasView.isRegisteredTouchAndKeyEvents)
 			{
+				(canvasView as any).ctrlKeyIsPressed=false;
+				this.registerDomEvent(canvasView.containerEl,"keydown", (event: KeyboardEvent) => {
+					if(event.ctrlKey){
+						canvasView.ctrlKeyIsPressed=true;
+					}
+				});
+				this.registerDomEvent(canvasView.containerEl,"keyup", (event: KeyboardEvent) => {
+					if(!event.ctrlKey){
+						canvasView.ctrlKeyIsPressed=false;
+					}
+				});
 				this.registerDomEvent(canvasView.containerEl,"touchstart", (event: TouchEvent) => {
 					new Notice(touchesToString(event.touches));
 					(canvasView as any).HarmonyTableMouseStartTouches=event.touches.item(0);
@@ -128,16 +139,17 @@ export default class ImgAnnotation extends Plugin {
 				this.registerDomEvent(canvasView.containerEl,"touchmove", (event: TouchEvent) => {
 					new Notice(touchesToString(event.touches));
 					(canvasView as any).HarmonyTableMouseEndTouches=event.touches.item(0);
-					if(Math.abs(canvasView.HarmonyTableMouseEndTouches.clientX-canvasView.HarmonyTableMouseStartTouches.clientX<0.000000000001)){
-						if(canvasView.HarmonyTableMouseEndTouches.clientY>canvasView.HarmonyTableMouseStartTouches.clientY){
-							canvasView.canvas.zoomBy(0.2,{x:canvasView.HarmonyTableMouseEndTouches.clientX-canvasView.canvas.canvasRect.cx,y:canvasView.HarmonyTableMouseEndTouches.clientY-canvasView.canvas.canvasRect.cy}); //this.canvas.config.zoomMultiplier
-						}
-						else if(canvasView.HarmonyTableMouseEndTouches.clientY<canvasView.HarmonyTableMouseStartTouches.clientY){
-							canvasView.canvas.zoomBy(-0.2, {x:canvasView.HarmonyTableMouseEndTouches.clientX-canvasView.canvas.canvasRect.cx,y:canvasView.HarmonyTableMouseEndTouches.clientY-canvasView.canvas.canvasRect.cy}); //-this.canvas.config.zoomMultiplier
-						}
+					//if(Math.abs(canvasView.HarmonyTableMouseEndTouches.clientX-canvasView.HarmonyTableMouseStartTouches.clientX<0.000000000001)){}
+
+					if(canvasView.HarmonyTableMouseEndTouches.clientY>canvasView.HarmonyTableMouseStartTouches.clientY&&canvasView.ctrlKeyIsPressed){
+						canvasView.canvas.zoomBy(0.2,{x:canvasView.HarmonyTableMouseEndTouches.clientX-canvasView.canvas.canvasRect.cx,y:canvasView.HarmonyTableMouseEndTouches.clientY-canvasView.canvas.canvasRect.cy}); //this.canvas.config.zoomMultiplier
 					}
+					else if(canvasView.HarmonyTableMouseEndTouches.clientY<canvasView.HarmonyTableMouseStartTouches.clientY&&canvasView.ctrlKeyIsPressed){
+						canvasView.canvas.zoomBy(-0.2, {x:canvasView.HarmonyTableMouseEndTouches.clientX-canvasView.canvas.canvasRect.cx,y:canvasView.HarmonyTableMouseEndTouches.clientY-canvasView.canvas.canvasRect.cy}); //-this.canvas.config.zoomMultiplier
+					}
+					
 				});
-				(canvasView as any).isRegisteredTouchEvents = true;
+				(canvasView as any).isRegisteredTouchAndKeyEvents = true;
 			}
 		
 
