@@ -1,9 +1,9 @@
 {
-	"id": "obsidian-img-annotation",
-	"name": "img annotation",
+	"id": "obsidian-HarmonyOSTabletCanvasMouseScrollPatch",
+	"name": "HarmonyOSTabletCanvasMouseScrollPatch",
 	"version": "1.0.0",
 	"minAppVersion": "0.15.0",
-	"description": "Annotate images with a stylus in Obsidian.",
+	"description": "This is a plugin designed to address the issue where the mouse wheel cannot be used to zoom in Obsidian Canvas on HarmonyOS tablets.",
 	"author": "lution",
 	"authorUrl": "https://github.com/Mrlution",
 	"fundingUrl": "https://obsidian.md/pricing",
