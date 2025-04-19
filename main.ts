@@ -119,6 +119,7 @@ export default class ImgAnnotation extends Plugin {
 			if(!canvasView.isRegisteredTouchEvents)
 			{
 				this.registerDomEvent(canvasView.containerEl,"touchstart", (event: TouchEvent) => {
+					new Notice(touchesToString(event.touches));
 					(canvasView as any).HarmonyTableMouseStartTouches=event.touches.item(0);
 					//new Notice(this);
 					//new Notice("touchstart");
