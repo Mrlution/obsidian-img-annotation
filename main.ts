@@ -116,7 +116,7 @@ export default class ImgAnnotation extends Plugin {
 			const canvas = (canvasView as any).canvas;
 			(this as any).canvas=canvas; //当前打开的canvas
 
-			this.registerDomEvent(canvas.containerEl,"touchstart", (event: TouchEvent) => {
+			this.registerDomEvent(canvasView.containerEl,"touchstart", (event: TouchEvent) => {
 				(this as any).HarmonyTableMouseStartTouches=event.touches.item(0);
 				//new Notice(this);
 				new Notice("touchstart");
