@@ -114,7 +114,7 @@ export default class ImgAnnotation extends Plugin {
 			const canvasView = this.app.workspace.getActiveViewOfType(ItemView);
 			if (canvasView?.getViewType() !== 'canvas') return;
 			const canvas = (canvasView as any).canvas;
-			this.canvas=canvas; //当前打开的canvas
+			(this as any).canvas=canvas; //当前打开的canvas
 			// new Notice(-canvas.config.zoomMultiplier);
 			// canvas.zoomBy(-canvas.config.zoomMultiplier);
 			// await delay(1000);
@@ -126,14 +126,14 @@ export default class ImgAnnotation extends Plugin {
 	
 	}
 	registerTouchEventsForHarmonyTabletMouse() {
-		this.HarmonyTabletMouseEvent=0;
+		(this as any).HarmonyTabletMouseEvent=0;
 		this.registerDomEvent(document,"touchstart", (event: TouchEvent) => {
 			this.HarmonyTableMouseEvent=1;
-			this.HarmonyTableMouseStartTouches=event.touches;
+			(this as any).HarmonyTableMouseStartTouches=event.touches;
 		});
 		this.registerDomEvent(document,"touchmove", (event: TouchEvent) => {
 			this.HarmonyTableMouseEvent=this.HarmonyTableMouseEvent+1;
-			this.HarmonyTableMouseEndTouches=event.touches;
+			(this as any).HarmonyTableMouseEndTouches=event.touches;
 		});
 		this.registerDomEvent(document,"touchend", (event: TouchEvent) => {
 			this.HarmonyTableMouseEvent=this.HarmonyTableMouseEvent+1;
