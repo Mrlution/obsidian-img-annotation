@@ -152,15 +152,7 @@ export default class ImgAnnotation extends Plugin {
 				else if(this.HarmonyTableMouseEndTouches.clientY<this.HarmonyTableMouseStartTouches.clientY){
 					//this.canvas.zoomBy(-0.5, this.domPosFromEvt(TouchEvent)); //-this.canvas.config.zoomMultiplier
 					//new Notice("zoom in");
-					const wheelEvent = new WheelEvent('wheel', {
-						deltaX: 0,       // 水平滚动量
-						deltaY: -100,     // 垂直滚动量（正值表示向下滚动）
-						deltaZ: 0,       // Z 轴滚动量（通常不常用）
-						deltaMode: 0,    // 滚动单位模式：0 表示像素，1 表示行，2 表示页
-						bubbles: true,   // 是否冒泡
-						cancelable: true // 是否可取消
-					});
-					document.dispatchEvent(wheelEvent);
+					new Notice(this.canvasRect);
 				}
 			}
 		});
