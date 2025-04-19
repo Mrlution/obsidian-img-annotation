@@ -110,7 +110,7 @@ export default class ImgAnnotation extends Plugin {
 
 
 		//this.registerTouchEventsForHarmonyTabletMouse();
-		this.registerEvent(this.app.workspace.on('file-open', async (file) => {
+		this.registerEvent(this.app.workspace.on('active-leaf-change', async (leaf:WorkspaceLeaf|null) => {
 			const canvasView = this.app.workspace.getActiveViewOfType(ItemView);
 			if (canvasView?.getViewType() !== 'canvas') return;
 			const canvas = (canvasView as any).canvas;
