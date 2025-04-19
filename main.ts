@@ -127,22 +127,15 @@ export default class ImgAnnotation extends Plugin {
 
 
 	registerTouchEventsForHarmonyTabletMouse() {
-		(this as any).HarmonyTabletMouseEvent=0;
+		//(this as any).HarmonyTabletMouseEvent=0;
 		this.registerDomEvent(document,"touchstart", (event: TouchEvent) => {
-			this.HarmonyTableMouseEvent=1;
+			//this.HarmonyTableMouseEvent=1;
 			(this as any).HarmonyTableMouseStartTouches=event.touches.item(0);
 		});
 		this.registerDomEvent(document,"touchmove", (event: TouchEvent) => {
-			this.HarmonyTableMouseEvent=this.HarmonyTableMouseEvent+1;
+			//this.HarmonyTableMouseEvent=this.HarmonyTableMouseEvent+1;
 			(this as any).HarmonyTableMouseEndTouches=event.touches.item(0);
-		});
-		this.registerDomEvent(document,"touchend", (event: TouchEvent) => {
-			new Notice(this.HarmonyTableMouseEvent);
-			this.HarmonyTableMouseEvent=this.HarmonyTableMouseEvent+1;
-			if(this.HarmonyTableMouseEvent===3){
-				new Notice("this is three");
-				new Notice(typeof this.HarmonyTableMouseEndTouches.clientY);
-				new Notice(typeof this.HarmonyTableMouseStartTouches.clientY);
+			if(Math.abs(this.HarmonyTableMouseEndTouches.clientX-this.HarmonyTableMouseStartTouches.clientX<0.01)){
 				if(this.HarmonyTableMouseEndTouches.clientY>this.HarmonyTableMouseStartTouches.clientY){
 					this.canvas.zoomBy(0.5); //this.canvas.config.zoomMultiplier
 					new Notice("zoom out");
@@ -152,8 +145,9 @@ export default class ImgAnnotation extends Plugin {
 					new Notice("zoom in");
 				}
 			}
-			this.HarmonyTableMouseEvent=this.HarmonyTableMouseEvent=0;
-
+		});
+		this.registerDomEvent(document,"touchend", (event: TouchEvent) => {
+			new Notice(this.HarmonyTableMouseEvent);
 		});
 	}
 		// const touchEvents = ["touchstart", "touchmove", "touchend"];
