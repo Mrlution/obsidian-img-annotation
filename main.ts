@@ -130,11 +130,11 @@ export default class ImgAnnotation extends Plugin {
 		(this as any).HarmonyTabletMouseEvent=0;
 		this.registerDomEvent(document,"touchstart", (event: TouchEvent) => {
 			this.HarmonyTableMouseEvent=1;
-			(this as any).HarmonyTableMouseStartTouches=event.touches;
+			(this as any).HarmonyTableMouseStartTouches=event.touches.item(0);
 		});
 		this.registerDomEvent(document,"touchmove", (event: TouchEvent) => {
 			this.HarmonyTableMouseEvent=this.HarmonyTableMouseEvent+1;
-			(this as any).HarmonyTableMouseEndTouches=event.touches;
+			(this as any).HarmonyTableMouseEndTouches=event.touches.item(0);
 		});
 		this.registerDomEvent(document,"touchend", (event: TouchEvent) => {
 			new Notice(this.HarmonyTableMouseEvent);
