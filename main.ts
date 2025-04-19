@@ -123,8 +123,9 @@ export default class ImgAnnotation extends Plugin {
 			// canvas.zoomBy(-canvas.config.zoomMultiplier);
 			// await delay(1000);
 		})); 
-	
 	}
+
+	
 	registerTouchEventsForHarmonyTabletMouse() {
 		(this as any).HarmonyTabletMouseEvent=0;
 		this.registerDomEvent(document,"touchstart", (event: TouchEvent) => {
