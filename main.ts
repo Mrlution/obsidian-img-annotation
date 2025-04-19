@@ -114,8 +114,13 @@ export default class ImgAnnotation extends Plugin {
 			const canvasView = this.app.workspace.getActiveViewOfType(ItemView);
 			if (canvasView?.getViewType() !== 'canvas') return;
 			const canvas = (canvasView as any).canvas;
+			new Notice(touchesToString(-canvas.config.zoomMultiplier));
 			canvas.zoomBy(-canvas.config.zoomMultiplier);
-			
+			await delay(1000);
+			canvas.zoomBy(-canvas.config.zoomMultiplier);
+			await delay(1000);
+			canvas.zoomBy(-canvas.config.zoomMultiplier);
+			await delay(1000);
 		})); 
 	
 	}
