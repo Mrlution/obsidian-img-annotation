@@ -252,17 +252,33 @@ class SampleSettingTab extends PluginSettingTab {
 				text
 				.setPlaceholder('0.2')
 				.setValue(this.plugin.settings.zoomSpeedSetting.toString())
-				.onChange(async (value) => {
+
+				const inputElement=text.inputEl;
+				inputElement.addEventListener('blur', ( ) => {
+					const value = inputElement.value;
 					const float_value= parseFloat(value);
 					
-					if(!isNaN(float_value) &&(float_value>=0 && float_value<=1.0)){
+					if(!isNaN(float_value) &&(float_value>=0.01 && float_value<=1.0)){
 						this.plugin.settings.zoomSpeedSetting = float_value;
 					}else{
 						this.plugin.settings.zoomSpeedSetting = 0.2;
 					}
 					text.setValue(this.plugin.settings.zoomSpeedSetting.toString());
-					await this.plugin.saveSettings();
-				})
+					this.plugin.saveSettings();
+				});
+
+
+				// .onChange(async (value) => {
+				// 	const float_value= parseFloat(value);
+					
+				// 	if(!isNaN(float_value) &&(float_value>=0 && float_value<=1.0)){
+				// 		this.plugin.settings.zoomSpeedSetting = float_value;
+				// 	}else{
+				// 		this.plugin.settings.zoomSpeedSetting = 0.2;
+				// 	}
+				// 	text.setValue(this.plugin.settings.zoomSpeedSetting.toString());
+				// 	await this.plugin.saveSettings();
+				// })
 			});
 	}
 }
