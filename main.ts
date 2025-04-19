@@ -144,14 +144,15 @@ export default class ImgAnnotation extends Plugin {
 				new Notice(typeof this.HarmonyTableMouseEndTouches.clientY);
 				new Notice(typeof this.HarmonyTableMouseStartTouches.clientY);
 				if(this.HarmonyTableMouseEndTouches.clientY>this.HarmonyTableMouseStartTouches.clientY){
-					this.canvas.zoomBy(-this.canvas.config.zoomMultiplier);
+					this.canvas.zoomBy(0.5); //this.canvas.config.zoomMultiplier
 					new Notice("zoom out");
 				}
 				else if(this.HarmonyTableMouseEndTouches.clientY<this.HarmonyTableMouseStartTouches.clientY){
-					this.canvas.zoomBy(this.canvas.config.zoomMultiplier);
+					this.canvas.zoomBy(-0.5); //-this.canvas.config.zoomMultiplier
 					new Notice("zoom in");
 				}
 			}
+			this.HarmonyTableMouseEvent=this.HarmonyTableMouseEvent=0;
 
 		});
 
